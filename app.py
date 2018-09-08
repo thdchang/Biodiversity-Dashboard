@@ -14,16 +14,12 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgres://acwgdmtadtgdzl:2e49777c5a5c934248cc8246681053db39b5788e9eb0a68edde8e5dd866e92d8@ec2-54-83-13-119.compute-1.amazonaws.com:5432/d637ko4035q5e4')
+#create an engine object
+engine = create_engine("sqlite:///bellybutton.sqlite") 
+
 ## Database setup 
-
-db = SQLAlchemy(app)
-
-
 Base = automap_base()
 
-#create an engine object
-engine = create_engine(connection)
 
 #reflect the tables in the database 
 Base.prepare(engine, reflect=True)
@@ -64,7 +60,7 @@ def pieData(sample):
 
     pie_dict = {"values": pie_value, "labels": pie_label, "hoverinfo": pie_hovertext}
 
-    return jsonfiy(pie_dict)
+    return pie_dict
 
     
     
@@ -96,7 +92,7 @@ def bubbleData(sample):
     #bubble_dict= {"x": bubble_Xvalue, "y": bubble_Yvalue, "text": bubble_textValues, "marker": {"color": bubble_MarkerColor, "size": bubble_MarkerSize}}
 
 
-    return jsonify(bubble_dict)
+    return bubble_dict
 
 
 
