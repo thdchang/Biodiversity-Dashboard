@@ -13,9 +13,11 @@ import pandas as pd
 
 app = Flask(__name__)
 
-
-connection = os.environ.get('sqlite:///bellybutton.sqlite')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgres://acwgdmtadtgdzl:2e49777c5a5c934248cc8246681053db39b5788e9eb0a68edde8e5dd866e92d8@ec2-54-83-13-119.compute-1.amazonaws.com:5432/d637ko4035q5e4')
 ## Database setup 
+
+db = SQLAlchemy(app)
+
 
 Base = automap_base()
 
