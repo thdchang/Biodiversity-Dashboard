@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, inspect, column
 import os
 import pandas as pd
+from flask_sqlalchemy import SQLAlchemy
 #---------------------------------------
 
 # Flask App Setup 
