@@ -6,3 +6,4 @@ gunicorn==19.9.0
 Jinja2==2.10
 pandas==0.23.4
 SQLAlchemy==1.2.11
+psycop2==2.7.5
