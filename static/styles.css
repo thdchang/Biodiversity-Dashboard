@@ -1,0 +1,35 @@
+
+
+.jumbotron {
+    background-image: url('https://edmonton.citynews.ca/wp-content/blogs.dir/sites/15/2018/04/CPT126317323_hd.jpg');
+    background-repeat: no-repeat center center;
+    background-size: cover;
+    margin-bottom: 0px;
+}
+
+#bg h1{
+    color: black;
+    -webkit-text-stroke: 1px white;
+
+}
+
+#bg p{
+    color: black;
+
+
+}
+
+
+#pie {
+    margin-top: 0px!important;
+    height:0!important;
+    
+}
+#bubble {
+    margin-top: 0px;
+    
+}
+
+.col-lg-5 {
+    padding-left: 0px;
+}
