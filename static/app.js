@@ -2,12 +2,12 @@
 const sampleDefaultURL = "/samples/940"
 const metadataDefaultURL = "/metadata/940";
 
-
+//function to create pie chart and bubble plots for default sample 940
 function init(sampleDefaultURL, metadataDefaultURL) {
 d3.json(sampleDefaultURL).then(function(data) {
+  // use functions to create charts
   pieChartData(data);
   bubbleChartData(data);
-  console.log(bubbleChartData(data))
 
   var pie = document.getElementById('pie');
   Plotly.newPlot(pie, output_pie[0], output_pie[1]);
@@ -26,9 +26,11 @@ d3.json(metadataDefaultURL).then(function(data) {
   })
 }
 
+//initial function called to plot default charts
 init(sampleDefaultURL, metadataDefaultURL);
 
 /// -----------------------------------------
+// below are 2 functions to prepare necessary code to construct plots
 function pieChartData(data) {   
   output_pie = [];
 
@@ -53,15 +55,8 @@ function pieChartData(data) {
   output_pie.push(pie_layout);
   
   return output_pie;
-
 }
 
-// var colorFunc = function markerColor(array) {
-//   colorArray = [];
-//   for (var i=0; i<array.length; i++) {
-//     return `rgb(0,0,${array[i]})`
-//   }
-// }
 
 function bubbleChartData(data) {
 
@@ -78,7 +73,6 @@ function bubbleChartData(data) {
     text: data[1]["text"],
 
   };
-
 
   var bubble_layout = {
       "height": 600, 
@@ -102,7 +96,7 @@ function bubbleChartData(data) {
 
 
 
-
+//------------------------------------------------------------
 
 
 // Get new data whenever the dropdown selection changes
@@ -115,18 +109,20 @@ function getData(route) {
   });
 
 
-
+  // retrieve json data 
   d3.json(`/metadata/${route}`).then(function(data) {
     
+    // clear html tags in div to insert updated metadata for selected sample
     d3.select("#metadata").html("");
+    
+    //select div class
     var peElements = d3.select("#metadata");
 
+    //append metadata 
     for (var key in data) {
       peElements.append("p").text(`${key}: ${data[key]}`)
-  
-    }
-  
 
+    }
   })
 }
 
@@ -135,10 +131,10 @@ function getData(route) {
 // Update the plot with new data
 function updatePlotly(newdata) {
   
-  pie = pieChartData(newdata)
-  bubble = bubbleChartData(newdata)
+  var pie = pieChartData(newdata)
+  var bubble = bubbleChartData(newdata)
 
-
+  //plot piechart and bubble plot
   Plotly.newPlot("pie", pie[0], pie[1]);
   Plotly.newPlot("bubble", bubble[0], bubble[1]);
 }

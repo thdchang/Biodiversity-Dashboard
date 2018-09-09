@@ -31,7 +31,7 @@
           <h5>SELECT Sample:</h5>
           
           <select id="belly_button_samples" class="justify-content-left" onchange="getData(this.value)">
-          
+          <!-- for loop to create option html tags for each sample id-->
           {% for sample in belly_button_samples %}
             <option value="{{ sample }}">{{ sample }}</option>
           {% endfor %}

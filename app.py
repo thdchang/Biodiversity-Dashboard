@@ -29,16 +29,11 @@ Base.prepare(engine, reflect=True)
 Samples = Base.classes.samples
 Samples_metadata = Base.classes.sample_metadata
 
-# create a session 
-# session = Session(engine)
-
-
-#create list to contain the dictionaries for objects to be used for charting
 
 
 
 # -------------------------------------------
-# Below is script to get the pie chart trace
+# Below is script of a function to get values, labels for creating pie chart
 def pieData(sample):
 
     #query the mapped table with desired sample, sort the column in descending order to display the top 10 otu_id count
@@ -53,6 +48,7 @@ def pieData(sample):
     pie_hovertext = []
     pie_dict = {}
 
+    #loop through query and to create dictionary of values for 
     for x, y, z in top_10_samples_values:
         pie_value.append(z)
         pie_hovertext.append(y)
@@ -66,7 +62,7 @@ def pieData(sample):
     
     
 # -------------------------------------------
-# below is the script to get the bubble chart trace
+# below is the script of a function to get the bubble chart trace and layout
 def bubbleData(sample):
     #query to get the trace for bubblechart
     bubble_query = engine.execute(f"SELECT otu_id, otu_label, \"{sample}\" FROM samples;")
@@ -103,22 +99,17 @@ def bubbleData(sample):
 @app.route("/")
 def index():
 
-    # data_list = []
-
+    # create dataframe from query
     df = pd.read_sql("SELECT * FROM samples", engine)
+    #manipulate queries dataframe
     belly_button_samples = df.T.iloc[2:].index.values.tolist()
 
-    # default_sample = "940"
 
-    # default_data = pieData(default_sample, data_list)
-    # default_data = bubbleData(default_data, data_list)
-
-
-    # return render_template("index.html", belly_button_samples=belly_button_samples, default_sample = default_data)
+    #render index.html with belly button samples to create and append option tags for dropdown menu
     return render_template("index.html", belly_button_samples=belly_button_samples)
 
 
-
+#route for retrieving sample data 
 @app.route("/samples/<sample>")
 def samples(sample):
     data = []
@@ -131,26 +122,21 @@ def samples(sample):
     return jsonify(data)
 
 
-
+#route to retrieve metadata for sample
 @app.route("/metadata/<sample>")
 def metadata(sample):
+    #query table for metadata for a sample
     metadata_query = engine.execute(f"SELECT * FROM sample_metadata WHERE sample = \"{sample}\";")
 
-
+    # create dictionary from the queried data
     for x in metadata_query: 
 
         metadata = {"AGE": x.AGE, "BBTYPE": x.BBTYPE, "ETHNICITY": x.ETHNICITY, "GENDER": x.GENDER, "LOCATION": x.LOCATION, "SAMPLEID": x.sample}
 
+    #return a json format of metadata to js file
     return jsonify(metadata)
     
-        
 
-@app.route("/wfreq/<sample>")
-def gauge(sample):
-    wfreq_query = engine.execute(f"SELECT WFREQ FROM sample_metadata WHERE sample = \"{sample}\";").first()
-
-    for wfreq in wfreq_query:
-        return wfreq
-
+#initialize flask app; set debug=True, unable to deploy on Heroku
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
